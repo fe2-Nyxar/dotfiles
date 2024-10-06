@@ -4,8 +4,22 @@ if status is-interactive
     fastfetch
 end
 
-alias nvimconfig='cd ~/.config/nvim && nvim . && cd -'
-alias ls="eza --icons=always --color=always --long --no-filesize"
+
+alias nixosconfig='nvim /etc/nixos/'
+alias nvimconfig='nvim ~/.config/nvim'
+alias ls= "eza --icons=always --color=always --long --no-filesize"
+
+# default code editor
+set -gx EDITOR "nvim"
+set -gx VISUAL "nvim"
+
+function sudo
+    if test "$argv[1]" = "nvim"
+        command sudo -Es $argv
+    else
+        command sudo $argv
+    end
+end
 
 function wttr
     curl "wttr.in/$argv"
@@ -63,3 +77,5 @@ function _fzf_comprun
       fzf --preview "bat -n --color=always --line-range :500 {}" $argv
   end
 end
+
+starship init fish | source
